@@ -42,8 +42,14 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<artifactId>spring-aop</artifactId>
 			<version>4.1.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.geronimo.bundles</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.8_2</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
