@@ -36,10 +36,10 @@ public class ConfigClient {
 	public static String queryPrivateKey() throws LoadConfigException {
 		Map<String, String> payload = new HashMap();
 		payload.put("envId", environmentId);
-		String result = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAKH6f5Ib2BUonJTdK0NUSx0/t3e3BTMt/0VIuOYEGT3yQ/WfDIhKGIV0pqER/VA/z2+yhkUrvBdfEiRaD3YAweHbRIueYcmJ2nctKQj4YFIDzYnsNIRs3vti9+Wdcm+UZabHwD1wP/iIW85Gjwd+nKs39wn6fNG8zaKeBlCOQoVxAgMBAAECgYBfcRKqLO3tybg5nvhW+9wmp9ybFaRiu7+mO2t3XQLilVWl7MmdpMs+F7X3QnpYRsEbt72WFGcH/mTaNpbVmSyjzrQ0waM3W5uQI1kqLlQtuwiwoAXsnu0/ih8YUTChCC7jOzpTttQDOo6s3m/1wDf8jq2SQZfmoEqLGgm2q97GAQJBAOWOL02/xoVoY3glTykt388KOo9FGLE7q9c6hjzsrxDQ4fsDC9czHDAetG2IATvxO4sfqx83GL4io6qNPpeZZrkCQQC0o2d3dGUj0q6TmAcw2Gs18K8IkO9H2aD1cpO4gFPklSue4UO6aTvsWlO6ZOv0MV76XUcaNeqv9MxTRnhWTLh5AkEAw5Yc6dLPc9WYgsLPKtfiTIZ7lJybyE5+QJilzX0gQGSpVnSm/wmWJ83Rj02FN6x3PjeSVrtcAoyDBIrp3MMgSQJBAIhuKgVEuebWhtgeqL+xlTfGMszLeo3Pxwvan8tn0PUB3VJAXQD73jBjAH31H2jtqQh7Tupy8nA2+eOjg9vaUjECQQCyRVS5JtgEBDlOOVXgCp22EkEG7i0Vccbc9/7W5oC7vjmgXPANuBwaS8vvIuVKZvRne5D/+uuh/mMuPH0ppfGE";
+//		String result = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAKH6f5Ib2BUonJTdK0NUSx0/t3e3BTMt/0VIuOYEGT3yQ/WfDIhKGIV0pqER/VA/z2+yhkUrvBdfEiRaD3YAweHbRIueYcmJ2nctKQj4YFIDzYnsNIRs3vti9+Wdcm+UZabHwD1wP/iIW85Gjwd+nKs39wn6fNG8zaKeBlCOQoVxAgMBAAECgYBfcRKqLO3tybg5nvhW+9wmp9ybFaRiu7+mO2t3XQLilVWl7MmdpMs+F7X3QnpYRsEbt72WFGcH/mTaNpbVmSyjzrQ0waM3W5uQI1kqLlQtuwiwoAXsnu0/ih8YUTChCC7jOzpTttQDOo6s3m/1wDf8jq2SQZfmoEqLGgm2q97GAQJBAOWOL02/xoVoY3glTykt388KOo9FGLE7q9c6hjzsrxDQ4fsDC9czHDAetG2IATvxO4sfqx83GL4io6qNPpeZZrkCQQC0o2d3dGUj0q6TmAcw2Gs18K8IkO9H2aD1cpO4gFPklSue4UO6aTvsWlO6ZOv0MV76XUcaNeqv9MxTRnhWTLh5AkEAw5Yc6dLPc9WYgsLPKtfiTIZ7lJybyE5+QJilzX0gQGSpVnSm/wmWJ83Rj02FN6x3PjeSVrtcAoyDBIrp3MMgSQJBAIhuKgVEuebWhtgeqL+xlTfGMszLeo3Pxwvan8tn0PUB3VJAXQD73jBjAH31H2jtqQh7Tupy8nA2+eOjg9vaUjECQQCyRVS5JtgEBDlOOVXgCp22EkEG7i0Vccbc9/7W5oC7vjmgXPANuBwaS8vvIuVKZvRne5D/+uuh/mMuPH0ppfGE";
 	
-//		return getExecute(assembleUrl("/client/query/rsa/private"), payload);
-		return result;
+		return getExecute(assembleUrl("/client/query/rsa/private"), payload);
+//		return result;
 	}
 
 	public static KangarooConfig queryRemoteConfig() throws LoadConfigException {
@@ -112,8 +112,8 @@ public class ConfigClient {
 	}
 
 	private static String getExecute(String url, Map<String, String> payload) throws LoadConfigException {
-		// String str = responseFormat(url, HttpUtil.get(url, payload, header));
-		String str = HttpUtil.getStr();
+		 String str = responseFormat(url, HttpUtil.get(url, payload, header));
+//		String str = HttpUtil.getStr();
 		return str;
 	}
 

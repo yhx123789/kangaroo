@@ -99,27 +99,5 @@ public class HttpUtil {
 		}
 	}
 	
-	public static String getStr() {
-		String FileName = "f:\\json.txt";
-		File myFile = new File(FileName);
-		if (!myFile.exists()) {
-			System.err.println("Can't Find " + FileName);
-		}
-		String result = new String();
-		String str;
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(myFile));
-			
-			while ((str = in.readLine()) != null) {
-				result = str;
-			}
-			in.close();
-			return result;
-		} catch (IOException e) {
-			
-			return null;
-		}
-	}
-	
 	
 }

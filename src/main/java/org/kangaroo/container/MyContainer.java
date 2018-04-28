@@ -87,9 +87,9 @@ public class MyContainer extends AbstractContainer {
 	}
 
 	public static void main(String[] args) {
-		// String cfgPath = "/home/zt/test/kangaroo.cfg";
+		String cfgPath = "/home/zt/test/kangaroo.cfg";
 		System.out.println("main start");
-		String cfgPath = "F:\\kangaroo.cfg";
+//		String cfgPath = "F:\\kangaroo.cfg";
 		if (null == cfgPath) {
 			System.err.println("Need config path");
 		}
