@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,7 +26,6 @@ import org.kangaroo.zk.notify.Event;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.PropertiesPropertySource;
-import com.sun.tools.javac.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class MyContainer extends AbstractContainer {
 	public static void main(String[] args) {
 		String cfgPath = "/home/zt/test/kangaroo.cfg";
 		System.out.println("main start");
-//		String cfgPath = "F:\\kangaroo.cfg";
+		// String cfgPath = "F:\\kangaroo.cfg";
 		if (null == cfgPath) {
 			System.err.println("Need config path");
 		}
@@ -108,6 +108,7 @@ public class MyContainer extends AbstractContainer {
 			while (running) {
 				try {
 					System.out.println("要睡觉了");
+					doTest();
 					MyContainer.class.wait();
 				} catch (Throwable var5) {
 					var5.printStackTrace();
@@ -122,19 +123,20 @@ public class MyContainer extends AbstractContainer {
 		String traceId = "SP_BETA_CSC&dictionary.queryOperLog&5245751";
 		HellTest hellTest = (HellTest) MyContainer.getContext().getBean("hellTest");
 		hellTest.say("yhx", traceId);
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String startStr = dateFormat.format(new Date(Long.valueOf("1514736000")));
-		String stopStr = dateFormat.format(new Date(Long.valueOf("1527782400")));
+		String startStr = dateFormat.format(new Date(Long.valueOf("1514736000000")));
+		String stopStr = dateFormat.format(new Date(Long.valueOf("1527782400000")));
 		params.put("startDate", startStr);
 		params.put("endDate", stopStr);
 		params.put("personName", null);
 		params.put("order", "desc");
-		OperLog operLog = (OperLog) MyContainer.getContext().getBean("operLog");
-		Page<OperLog> oplogs = operLog.selecOperLogpage(1, 3, params);
-		List<OperLog> opLogList =  (List<OperLog>) oplogs.getData();
-		for(OperLog log:opLogList){
-			logger.info("log = {}" , log.toString());
+		Page<OperLog> oplogs = hellTest.selectOperLogPage(1, 3, params,traceId);
+		
+		List<OperLog> opLogList = oplogs.getData();
+		for (OperLog log : opLogList) {
+			logger.info("log = {}", log.toString());
 		}
 	}
 

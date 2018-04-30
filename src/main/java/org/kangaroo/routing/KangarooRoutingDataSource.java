@@ -30,7 +30,9 @@ import org.springframework.util.Assert;
 public class KangarooRoutingDataSource extends KangarooDruidDataSource {
     private static final Logger logger = LoggerFactory.getLogger(KangarooRoutingDataSource.class);
     private static final AtomicBoolean initialized = new AtomicBoolean(false);
+    // key- appkey   value- mysqlId
     private Map<String, String> targetSource;
+    // kye- mysqlId  value- DataSource
     private Map<String, KangarooDruidDataSource> instances;
 
     public KangarooRoutingDataSource() {
@@ -202,7 +204,6 @@ public class KangarooRoutingDataSource extends KangarooDruidDataSource {
 
                 this.instances.clear();
             }
-
             this.targetSource.clear();
         }
 
@@ -239,7 +240,7 @@ public class KangarooRoutingDataSource extends KangarooDruidDataSource {
             } catch (SQLException var6) {
                 var6.printStackTrace();
             }
-            logger.info("xxxxx   url= ",ds.getUrl());
+            logger.info("xxxxx   url={}",ds.getUrl());
             logger.info("xxxxx   Load DruidDataSource:{},password:{}", ds.getName(),ds.getPassword());
             this.instances.put(config.getId(), ds);
             return ds;
