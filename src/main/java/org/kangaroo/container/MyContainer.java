@@ -152,7 +152,7 @@ public class MyContainer extends AbstractContainer {
 		Event event = Event.create(1, (String) null, "APP_START:" + ConfigClient.environmentId);
 		event.setExtra(initParams);
 		this.channelHolder.execute(event);
-		context = new ClassPathXmlApplicationContext("classpath:beans.xml");
+		context = new ClassPathXmlApplicationContext("classpath:root/beans.xml");
 		AppContext.setApplicationContext(getContext());
 		context.getEnvironment().getPropertySources()
 				.addFirst(new PropertiesPropertySource("localProperties", initParams.getProperties()));
