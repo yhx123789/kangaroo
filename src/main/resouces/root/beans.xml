@@ -5,8 +5,7 @@
 	default-autowire="byName">
 
 	<context:property-placeholder />
-	<!-- <import resource="classpath*:/root-infra.xml"/> -->
-	<!-- <import resource="classpath*:/root-core.xml"/> -->
+	<import resource="classpath*:/root-infra.xml"/>
 	<!-- <import resource="classpath*:/root-application.xml"/> -->
 	<import resource="classpath*:/root-facade.xml" />
 </beans>

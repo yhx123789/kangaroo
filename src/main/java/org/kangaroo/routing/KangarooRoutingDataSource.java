@@ -39,6 +39,7 @@ public class KangarooRoutingDataSource extends KangarooDruidDataSource {
 
     public void init() {
         if (initialized.compareAndSet(false, true)) {
+        	logger.info("DataSouce start init.");
             ResourcePool.setKangarooRoutingDataSource(this);
             this.targetSource = new HashMap();
             this.instances = new HashMap();
@@ -233,14 +234,13 @@ public class KangarooRoutingDataSource extends KangarooDruidDataSource {
             ds.setTestOnReturn(config.getTestOnReturn() == 1);
             ds.setPoolPreparedStatements(config.getPoolPs() == 1);
             ds.setMaxPoolPreparedStatementPerConnectionSize(config.getMaxPoolPsConnectionSize());
-
             try {
                 ds.setFilters(config.getFilters());
             } catch (SQLException var6) {
                 var6.printStackTrace();
             }
 
-            logger.info("Load DruidDataSource:{}", ds.getName());
+            logger.info("Load DruidDataSource:{},password:{}", ds.getName(),ds.getPassword());
             this.instances.put(config.getId(), ds);
             return ds;
         }
