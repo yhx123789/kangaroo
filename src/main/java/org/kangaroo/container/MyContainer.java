@@ -119,7 +119,7 @@ public class MyContainer extends AbstractContainer {
 
 	public static void doTest() {
 		logger.info("开始执行我的测试");
-		String traceId = "SP_BETA_CSC&service.ucenter.wechat.register&0913489";
+		String traceId = "SP_BETA_CSC&dictionary.queryOperLog&5245751";
 		HellTest hellTest = (HellTest) MyContainer.getContext().getBean("hellTest");
 		hellTest.say("yhx", traceId);
 		Map<String, Object> params = new HashMap<String, Object>();

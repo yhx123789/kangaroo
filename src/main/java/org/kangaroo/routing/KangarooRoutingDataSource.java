@@ -239,8 +239,8 @@ public class KangarooRoutingDataSource extends KangarooDruidDataSource {
             } catch (SQLException var6) {
                 var6.printStackTrace();
             }
-
-            logger.info("Load DruidDataSource:{},password:{}", ds.getName(),ds.getPassword());
+            logger.info("xxxxx   url= ",ds.getUrl());
+            logger.info("xxxxx   Load DruidDataSource:{},password:{}", ds.getName(),ds.getPassword());
             this.instances.put(config.getId(), ds);
             return ds;
         }
