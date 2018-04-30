@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.albert.domain.dictionary.infra.repository.sql.OperLogMapper">
+    <resultMap id="BaseResultMap" type="org.albert.domain.dictionary.core.domain.OperLog">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="oper_id" property="operId" jdbcType="BIGINT"/>
+        <result column="dictionary_id" property="dictionaryId" jdbcType="BIGINT"/>
+        <result column="oper_name" property="operName" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="modify_content" property="modifyContent" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="TINYINT"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="others" property="others" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, oper_id, dictionary_id, oper_name, description, content, modify_content, state, updated_at, created_at,
+        others
+    </sql>
+
+    <sql id="Insert_Column_List">
+        oper_id, dictionary_id,oper_name, description, content, modify_content,others
+    </sql>
+
+    <sql id="Select_Condition">
+        <if test="selectCondition != null">
+            <if test="selectCondition.startDate != null and selectCondition.startDate != ''">
+                AND created_at &gt;= #{selectCondition.startDate,jdbcType=VARCHAR}
+            </if>
+            <if test="selectCondition.endDate != null and selectCondition.endDate != ''">
+                AND created_at &lt;= #{selectCondition.endDate,jdbcType=VARCHAR}
+            </if>
+            <if test="selectCondition.personName != null and selectCondition.personName != ''">
+                AND oper_name = #{selectCondition.personName,jdbcType=VARCHAR}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 查询日志 -->
+    <select id="selectOperLog" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM oper_log
+        WHERE state = 1
+
+        <if test="startDate != null">
+            AND created_at &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND created_at &lt;= #{endDate}
+        </if>
+        <if test="personName != null">
+            AND oper_name = #{personName}
+        </if>
+        ORDER BY created_at DESC
+        <if test="pageSize != null and pageSize != 0">
+            LIMIT #{pageIndex} , #{pageSize}
+        </if>
+    </select>
+
+
+    <!-- 批量插入 -->
+    <insert id="insertOperLogBatch" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO oper_log (<include refid="Insert_Column_List"/>)
+        VALUES
+        <foreach collection="list" item="item" index="id" separator="," open="" close=";">
+            (#{item.operId},#{item.dictionaryId},#{item.operName},
+            #{item.description}, #{item.content}, #{item.modifyContent},
+            #{item.others}
+            )
+        </foreach>
+    </insert>
+
+
+    <!-- 批量根据dictionaryId查询 -->
+    <select id="selectOperLogByDictionaryIdBatch" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM oper_log
+        WHERE state = 1 AND dictionary_id IN
+        <foreach collection="list" item="dictionaryId" index="index" open="(" separator="," close=")">
+            #{dictionaryId}
+        </foreach>
+    </select>
+
+    <!-- 批量根据dictionaryId删除-->
+    <update id="deleteOperLogByDictionaryIdBatch" parameterType="java.util.List">
+        <foreach collection="list" item="dictionaryId" open="" close="" separator=";">
+            UPDATE oper_log
+            <set>
+                state = 0
+            </set>
+            WHERE dictionary_id = #{dictionaryId}
+        </foreach>
+    </update>
+
+    <!-- 查询总记录数-->
+    <select id="selectCountByCondition" resultType="java.lang.Long">
+        select
+        count(id)
+        from oper_log
+        <where>
+            state = 1
+            <include refid="Select_Condition"/>
+        </where>
+    </select>
+
+    <!--分页查询记录-->
+    <select id="pageQueryByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from oper_log
+        <where>
+            state = 1
+            <include refid="Select_Condition"/>
+        </where>
+        <if test="selectCondition.sort != null">
+            order by ${selectCondition.sort}
+        </if>
+        <if test="selectCondition.order != null">
+            ${selectCondition.order}
+        </if>
+        <if test="selectCondition.pageIndex != null and selectCondition.pageSize != null">
+            limit #{selectCondition.pageIndex} , #{selectCondition.pageSize}
+        </if>
+    </select>
+
+
+</mapper>

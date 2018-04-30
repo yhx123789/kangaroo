@@ -34,12 +34,12 @@ public class CipherFactory {
         return new String(rsaCipher.decryptByPrivateK(Base64.decode(encrypted)));
     }
 
-    public static void setPUBLIC_KEY(String PUBLIC_KEY) {
-        PUBLIC_KEY = PUBLIC_KEY;
+    public static void setPUBLIC_KEY(String PUBLIC_KEY2) {
+        PUBLIC_KEY = PUBLIC_KEY2;
     }
 
-    public static void setPRIVATE_KEY(String PRIVATE_KEY) {
-        PRIVATE_KEY = PRIVATE_KEY;
+    public static void setPRIVATE_KEY(String PRIVATE_KEY2) {
+        PRIVATE_KEY = PRIVATE_KEY2;
     }
 
     public static String getPublicKey() {

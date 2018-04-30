@@ -1,0 +1,22 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!--用于激活容器中注册的bean -->
+	<!-- 因此当使用<context:component-scan/>后，即可将<context:annotation-config/>省去 -->
+	<!-- <context:annotation-config /> -->
+
+	<!--扫描已经注册的bean -->
+	<context:component-scan base-package="org.albert.domain.logistics.facade">
+	</context:component-scan>
+
+	<context:component-scan base-package="org.albert.domain.dictionary.infra" />
+	<context:component-scan base-package="org.albert.common.repository" />
+
+	<context:component-scan base-package="org.albert.domain.dictionary.core">
+	</context:component-scan>
+
+</beans>

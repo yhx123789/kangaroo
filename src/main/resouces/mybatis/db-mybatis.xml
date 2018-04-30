@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/mappers/*.xml</value>
+            </list>
+        </property>
+        <property name="plugins">
+            <array>
+                <bean class="org.kangaroo.routing.support.mybatis.TableRoutingInterceptor">
+                    <property name="tableRouting" ref="appKeyRouting"/>
+                </bean>
+            </array>
+        </property>
+
+    </bean>
+
+    <!--// 路由规则可以通过实现 org.kangaroo.routing.support.TableRouting接口来自定义
+    // 这里是使用根据appKey路由的规则-->
+    <bean id="appKeyRouting" class="org.kangaroo.routing.support.AppKeyRouting">
+        <property name="specifiedKey">
+            <set>
+                <!-- 共享库级别的appKey才进行表路由 -->
+                <value>ss</value>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="mapperScannerConfigurer" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.albert.domain.dictionary.infra.repository.sql"/>
+        <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
+    </bean>
+
+
+
+    <!-- 将原来的数据源替换为Kangaroo提供的数据源即可,请务必配置 init-method方法 -->
+    <bean id="dataSource" class="org.kangaroo.routing.KangarooRoutingDataSource" init-method="init"
+          destroy-method="destroy"/>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

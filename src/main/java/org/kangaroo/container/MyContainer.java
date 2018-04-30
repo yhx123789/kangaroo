@@ -1,11 +1,16 @@
 package org.kangaroo.container;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.text.html.HTML;
 
+import org.albert.common.domain.Page;
+import org.albert.domain.dictionary.core.domain.OperLog;
 import org.albert.domain.logistics.facade.HellTest;
 import org.kangaroo.common.AppContext;
 import org.kangaroo.common.KangarooConfig;
@@ -20,6 +25,7 @@ import org.kangaroo.zk.notify.Event;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.PropertiesPropertySource;
+import com.sun.tools.javac.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,6 +122,20 @@ public class MyContainer extends AbstractContainer {
 		String traceId = "SP_BETA_CSC&service.ucenter.wechat.register&0913489";
 		HellTest hellTest = (HellTest) MyContainer.getContext().getBean("hellTest");
 		hellTest.say("yhx", traceId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String startStr = dateFormat.format(new Date(Long.valueOf("1514736000")));
+		String stopStr = dateFormat.format(new Date(Long.valueOf("1527782400")));
+		params.put("startDate", startStr);
+		params.put("endDate", stopStr);
+		params.put("personName", null);
+		params.put("order", "desc");
+		OperLog operLog = (OperLog) MyContainer.getContext().getBean("operLog");
+		Page<OperLog> oplogs = operLog.selecOperLogpage(1, 3, params);
+		List<OperLog> opLogList =  (List<OperLog>) oplogs.getData();
+		for(OperLog log:opLogList){
+			logger.info("log = {}" , log.toString());
+		}
 	}
 
 	public static ClassPathXmlApplicationContext getContext() {
@@ -152,7 +172,7 @@ public class MyContainer extends AbstractContainer {
 		Event event = Event.create(1, (String) null, "APP_START:" + ConfigClient.environmentId);
 		event.setExtra(initParams);
 		this.channelHolder.execute(event);
-		context = new ClassPathXmlApplicationContext("classpath:beans.xml");
+		context = new ClassPathXmlApplicationContext("classpath:root/beans.xml");
 		AppContext.setApplicationContext(getContext());
 		context.getEnvironment().getPropertySources()
 				.addFirst(new PropertiesPropertySource("localProperties", initParams.getProperties()));
